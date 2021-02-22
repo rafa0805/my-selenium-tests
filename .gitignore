@@ -1,0 +1,4 @@
+output/
+working/
+__pycache__/
+*.log
