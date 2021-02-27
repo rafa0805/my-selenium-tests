@@ -1,4 +1,5 @@
 import myTests
+import myCsv
 
 browsers = [
   # "Chrome",
@@ -6,12 +7,13 @@ browsers = [
   # "Edge"
 ]
 
-cases = [
-  {"case_name" : "test1", "search" : "Selenium1"},
-  {"case_name" : "test2", "search" : "Selenium2"},
-  {"case_name" : "test3", "search" : "Selenium3"}
-]
+csv = myCsv.CSV(file="./datasample.csv", param_row="1", row_start="2", delimiter=",", encoding="shift_jis")
+
+cases = csv.make_dictionary()
 
 for browser in browsers:
   test = myTests.WebTest(cases, browser)
   test.execute()
+
+  for result in test.summary:
+    print(result)
