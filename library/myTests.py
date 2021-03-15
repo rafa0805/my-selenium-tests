@@ -2,13 +2,14 @@ import pytest
 import time
 import json
 import os
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities 
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities 
 
 # = = = = = Cheet Sheets = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
 #  ***** 要素の取得構文例 *****
@@ -91,7 +92,8 @@ class WebTest():
   # *************** Main Process ***************
   def flow(self, case, last_flag):
 
-    self.driver.get("https://techacademy.jp/login")
+    self.driver.get("https://www.youtube.com/")
+    exit()
     self.driver.find_element(By.ID, "session_email").send_keys(case["session_email"])
     self.driver.find_element(By.ID, "session_password").send_keys(case["session_password"])
 
@@ -173,9 +175,11 @@ class WebTest():
 
   def firefox_driver(self):
     from selenium.webdriver.firefox.options import Options
-    self.options = Options()
-    # self.options.add_argument('-headless')
-    self.driver = webdriver.Firefox(firefox_options=self.options, log_path=self.output_path + "logs/geckodriver.log")
+    options = Options()
+    # path for default profiles can be found in your brouser by putting "about:profiles" on search box
+    profile = webdriver.FirefoxProfile(r"xxxxx")
+    # options.add_argument('-headless')
+    self.driver = webdriver.Firefox(firefox_options=options, firefox_profile=profile ,log_path=self.output_path + "logs/geckodriver.log")
 
   def edge_driver(self):
     # from selenium.webdriver.edge.options import Options

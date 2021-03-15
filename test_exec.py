@@ -1,5 +1,5 @@
-import myTests
-import myCsv
+from library import myTests
+from library import myCsv
 
 browsers = [
   # "Chrome",
