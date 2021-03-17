@@ -1,4 +1,4 @@
-import pytest
+# import pytest
 import time
 import json
 import os
@@ -9,46 +9,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities 
 from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
-
-# = = = = = Cheet Sheets = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
-#  ***** 要素の取得構文例 *****
-#  self.driver.find_element(By.TAG_NAME, "example") ----- タグ名で要素を取得
-#  self.driver.find_element(By.ID, "example") ----- id属性値で要素を取得
-#  self.driver.find_element(By.NAME, "example") ----- name属性値で要素を取得
-#  self.driver.find_element(By.CSS_SELECTOR, "example") ----- cssのセレクタ表記で要素を取得
-#  self.driver.find_element(By.XPATH, "example") ----- XPathで要素を取得
-#  self.driver.find_element(By.LINK_TEXT, "example") ----- アンカーのテキストによって要素を取得
-#  self.driver.find_element(By.PARTIAL_LINK_TEXT, "example") ----- アンカーの部分テキストによって要素を取得
-
-#  ***** 状態評価の構文例 *****
-#  .is_enabled() ----- 要素がアクティブかを評価
-#  .isSelected() ----- 要素が選択されているかを評価 (チェックボックスやラジオボタン)
-#  .send_keys("example") ----- 取得した要素に値を入力する
-#  .click() ----- 取得した要素をクリックする
-
-#  ***** セレクトタグの選択方法 *****
-#  方法①
-#  dropdown = self.driver.find_element(By.ID, "example_select")
-#  dropdown.find_element(By.XPATH, "//option[. = 'example_option']").click()
-#  方法②
-#  select_element = driver.find_element(By.ID,'example_select')
-#  select_object = Select(select_element)
-#  select_object.select_by_index(1)
-#  select_object.select_by_value('example')
-#  select_object.select_by_visible_text('example')
-
-#  ***** 要素のパラメータを取得する構文例 *****
-#  .tag_name ----- 要素のタグの種類を取得
-#  .text ----- 要素のテキストを取得
-#  .title ----- ページのタイトルを取得を取得 (要素ではなくドライバーオブジェクトに対して使う)
-#  .rect ----- 親要素の左上を基準にした、要素のx座標、y座標 & 高さ、幅を取得
-#  .value_of_css_property('color') ----- 要素のcssのプロパティの値を取得 (例文はcolorプロパティの値を取得)
-
-#  ***** 非同期処理を待機する例 *****
-#  WebDriverWait(self.driver, 30000).until(expected_conditions.text_to_be_present_in_element((By.LINK_TEXT, "example"), "example_text"))
-
-# = = = = = Cheet Sheets = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+from selenium.webdriver.support.wait import WebDriverWait 
 
 class WebTest():
 
@@ -63,45 +24,40 @@ class WebTest():
     # start up driver
     self.start_driver(self.browser)
     # evaluation params
-    self.true_n = 0
-    self.false_n = 0
-    self.assessment_n = 0
-    self.case_true_n = 0
-    self.case_false_n = 0
-    self.case_assessment_n = 0
+    self.true_num = 0
+    self.false_num = 0
+    self.assessment_num = 0
+    self.case_true_num = 0
+    self.case_false_num = 0
+    self.case_assessment_num = 0
     self.summary = list()
 
   def execute(self):
     count = 0
     last_flag = 0
+
     for case in self.cases:
       count += 1
+
       if count == len(self.cases):
         last_flag = 1
-      self.flow(case, last_flag)
+
+      self.test_flow(case, last_flag)
 
   def teardown_method(self, method):
     self.driver.quit()
-
-  def create_output_dirs(self):
-    os.makedirs(self.output_path + "screenshots/", mode=0o777, exist_ok=True)
-    os.makedirs(self.output_path + "logs/", mode=0o777, exist_ok=True)
  
 
 
   # *************** Main Process ***************
-  def flow(self, case, last_flag):
+  def test_flow(self, case, last_flag):
 
-    self.driver.get("https://www.youtube.com/")
-    exit()
-    self.driver.find_element(By.ID, "session_email").send_keys(case["session_email"])
-    self.driver.find_element(By.ID, "session_password").send_keys(case["session_password"])
+    self.driver.get("https://www.selenium.dev/")
 
     element = self.driver.find_elements(By.ID, "flash")
     self.count_assess_result(bool(len(element) > 0))
     
-    time.sleep(1)
-    filename = self.output_path + "screenshots/" + self.browser + "_" + case["case_name"] + "_a"
+    filename = self.output_path + "screenshots/" + self.browser + "_" + case["case_name"] + "_write_what_u_want"
     self.full_screen(filename)
 
     self.show_summary(case['case_name'])
@@ -118,27 +74,27 @@ class WebTest():
   def show_summary(self, casename):
     result = {
       'case_name' : casename,
-      'case_assessment_n' : self.case_assessment_n,
-      'case_true_n' : self.case_true_n,
-      'case_false_n' : self.case_false_n
+      'case_assessment_num' : self.case_assessment_num,
+      'case_true_num' : self.case_true_num,
+      'case_false_num' : self.case_false_num
     }
     self.summary.append(result)
     self.reset_count()
 
   def count_assess_result(self, result):
-    self.assessment_n += 1
-    self.case_assessment_n += 1
+    self.assessment_num += 1
+    self.case_assessment_num += 1
     if result:
-      self.true_n += 1
-      self.case_true_n += 1
+      self.true_num += 1
+      self.case_true_num += 1
     else:
-      self.false_n += 1
-      self.case_false_n += 1
+      self.false_num += 1
+      self.case_false_num += 1
   
   def reset_count(self):
-    self.case_true_n = 0
-    self.case_false_n = 0
-    self.case_assessment_n = 0
+    self.case_true_num = 0
+    self.case_false_num = 0
+    self.case_assessment_num = 0
 
 
 
@@ -148,6 +104,10 @@ class WebTest():
     h = self.driver.execute_script("return document.body.scrollHeight")
     self.driver.set_window_size(w, h)
     self.driver.save_screenshot(filename + ".png")
+
+  def create_output_dirs(self):
+    os.makedirs(self.output_path + "screenshots/", mode=0o777, exist_ok=True)
+    os.makedirs(self.output_path + "logs/", mode=0o777, exist_ok=True)
 
 
 
@@ -177,7 +137,7 @@ class WebTest():
     from selenium.webdriver.firefox.options import Options
     options = Options()
     # path for default profiles can be found in your brouser by putting "about:profiles" on search box
-    profile = webdriver.FirefoxProfile(r"xxxxx")
+    profile = webdriver.FirefoxProfile(r"C:\\Users\\RAFAEL\\Documents\\MyBookShelf\\Repositories\\my-selenium\\config\\profiles")
     # options.add_argument('-headless')
     self.driver = webdriver.Firefox(firefox_options=options, firefox_profile=profile ,log_path=self.output_path + "logs/geckodriver.log")
 
