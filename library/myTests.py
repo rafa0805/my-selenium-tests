@@ -31,6 +31,8 @@ class WebTest():
     self.case_false_num = 0
     self.case_assessment_num = 0
     self.summary = list()
+    # put put data
+    self.extracts = list()
 
   def execute(self):
     count = 0
@@ -52,15 +54,20 @@ class WebTest():
   # *************** Main Process ***************
   def test_flow(self, case, last_flag):
 
-    self.driver.get("https://www.selenium.dev/")
+    self.driver.get("https://ramendb.supleks.jp/s/4062.html")
 
-    element = self.driver.find_elements(By.ID, "flash")
-    self.count_assess_result(bool(len(element) > 0))
+    # element = self.driver.find_elements(By.ID, "flash")
+    # self.count_assess_result(bool(len(element) > 0))
     
     filename = self.output_path + "screenshots/" + self.browser + "_" + case["case_name"] + "_write_what_u_want"
     self.full_screen(filename)
 
     self.show_summary(case['case_name'])
+
+    data = self.extract_element()
+    print(element)
+    # self.extracts.append(data)
+    
 
     if last_flag == 1:
       self.driver.close()
@@ -109,6 +116,24 @@ class WebTest():
     os.makedirs(self.output_path + "screenshots/", mode=0o777, exist_ok=True)
     os.makedirs(self.output_path + "logs/", mode=0o777, exist_ok=True)
 
+  def extract_element(self):
+    script = """
+    let data = new Object;
+    let elements = document.querySelectorAll('#data-table tr')
+    elements.forEach(function(element) {
+      try {
+        let key = element.childNodes[1].innerText;
+        let val = element.childNodes[3].innerText;
+        data[key] = val;
+      } catch {
+        return;
+      }
+    });
+    return data;
+    """
+    return self.driver.execute_script(script)
+  
+
 
 
   # *************** Setting up Drivers ***************
@@ -138,7 +163,7 @@ class WebTest():
     options = Options()
     # path for default profiles can be found in your brouser by putting "about:profiles" on search box
     profile = webdriver.FirefoxProfile(r"C:\\Users\\RAFAEL\\Documents\\MyBookShelf\\Repositories\\my-selenium\\config\\profiles")
-    # options.add_argument('-headless')
+    options.add_argument('-headless')
     self.driver = webdriver.Firefox(firefox_options=options, firefox_profile=profile ,log_path=self.output_path + "logs/geckodriver.log")
 
   def edge_driver(self):
