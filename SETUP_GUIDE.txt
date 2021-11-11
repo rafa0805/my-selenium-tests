@@ -1,26 +1,14 @@
-■用語
-- WebDriver (Selenium bindings, Third party bindings)
-- Driver (プログラムでブラウザを操作するためのAPI)
+Installation part
+- Install Docker (In Windows Case install "Docker Desktop for Windows")
+- Install VNS Client [optional]
 
-■Driverのインストールと設定
-- Firefox
--- URL: xxx
--- パス設定
+Testing preparation
+- define cases and place it in /cases. (case_example.csv will show you the format of cases file.)
+- define test scenario (actions & assertions to be done in browser) and place it in /src/scenarios.
+- make execution file and call your scenario class.
 
-- IE
--- URL: https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver#required-configuration
--- URL: https://www.selenium.dev/downloads/ (Seleniumマネージド)
--- パス設定
--- 保護モードの統一
--- 参考サイト:
-・https://tanakano-aster.com/447764313-html/
-・https://living-sun.com/ja/internet-explorer/309241-selenium-ie-webdriver-stuck-at-ldquothis-is-the-initial-start-page-for-the-webdriver-serverrdquo-with-ie11-internet-explorer-selenium-selenium-webdriver-automation.html
---notes:
-・32bitバージョンを選択　※よくわからないけど64bitバージョンは不具合あるというゴシップ
-・うまく動かないときはとにかくzoom率を100%にする
-
-- Edge
--- URL: https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/
-
-■処理の記述
-- クイックリファレンス: https://www.seleniumqref.com/api/python/
+Execute your test
+- cd docker
+- docker compose up -d
+- docker container exec -it {container_name_for_python} bash
+- python execute.py

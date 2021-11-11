@@ -1,0 +1,26 @@
+■用語
+- WebDriver (Selenium bindings, Third party bindings)
+- Driver (プログラムでブラウザを操作するためのAPI)
+
+■Driverのインストールと設定
+- Firefox
+-- URL: xxx
+-- パス設定
+
+- IE
+-- URL: https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver#required-configuration
+-- URL: https://www.selenium.dev/downloads/ (Seleniumマネージド)
+-- パス設定
+-- 保護モードの統一
+-- 参考サイト:
+・https://tanakano-aster.com/447764313-html/
+・https://living-sun.com/ja/internet-explorer/309241-selenium-ie-webdriver-stuck-at-ldquothis-is-the-initial-start-page-for-the-webdriver-serverrdquo-with-ie11-internet-explorer-selenium-selenium-webdriver-automation.html
+--notes:
+・32bitバージョンを選択　※よくわからないけど64bitバージョンは不具合あるというゴシップ
+・うまく動かないときはとにかくzoom率を100%にする
+
+- Edge
+-- URL: https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/
+
+■処理の記述
+- クイックリファレンス: https://www.seleniumqref.com/api/python/
