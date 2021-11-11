@@ -1,5 +1,1 @@
-config/
-output/
-working/
-__pycache__/
-*.log
+__pycache__
