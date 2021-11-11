@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  python:
+    build: ./services/python
+    volumes:
+      - ../:/usr/src/app
+    tty: true
+  chrome:
+    # image: selenium/standalone-firefox-debug:3.141.59
+    build: ./services/chrome
+    restart: unless-stopped
+    ports:
+      - 4444:4444
+      - 15900:5900
+    shm_size: '2gb'
+    # volumes:
+      # - /dev/shm:/dev/shm
+      # - /etc/localtime:/etc/localtime:ro
+    environment:
+      - SCREEN_WIDTH=1600
+      - SCREEN_HEIGHT=900
